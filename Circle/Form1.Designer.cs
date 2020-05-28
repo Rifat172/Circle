@@ -100,7 +100,7 @@
             this.Check.TabIndex = 15;
             this.Check.Text = "Проверить";
             this.Check.UseVisualStyleBackColor = true;
-            this.Check.Click += new System.EventHandler(this.Check);
+            this.Check.Click += new System.EventHandler(this.CheckB_Click);
             // 
             // label5
             // 
@@ -115,6 +115,11 @@
             // dotY
             // 
             this.dotY.Location = new System.Drawing.Point(13, 362);
+            this.dotY.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
             this.dotY.Name = "dotY";
             this.dotY.Size = new System.Drawing.Size(120, 22);
             this.dotY.TabIndex = 13;
@@ -132,6 +137,11 @@
             // dotX
             // 
             this.dotX.Location = new System.Drawing.Point(13, 308);
+            this.dotX.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
             this.dotX.Name = "dotX";
             this.dotX.Size = new System.Drawing.Size(120, 22);
             this.dotX.TabIndex = 10;
@@ -264,7 +274,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Мега крутой график";
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             this.splitContainer1.Panel1.ResumeLayout(false);

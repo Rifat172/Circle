@@ -18,9 +18,7 @@ namespace Circle
         const int ARR_LEN = 10;
 
         List<CircleClass> Circles = new List<CircleClass>();
-        
-        int idotX = 0;
-        int idotY = 0;
+        MyPoint Points;
 
         bool isShown = false;
 
@@ -113,15 +111,6 @@ namespace Circle
             return result;
         }
 
-        private void Paint_Circle()
-        {
-            foreach(var C in Circles)
-            {
-                graphics.DrawEllipse(new Pen(Brushes.Black, 2), C.X, C.Y, C.diameter, C.diameter);
-            }
-            pictureBox1.Refresh();
-        }
-
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
             if (isShown == true)
@@ -139,8 +128,27 @@ namespace Circle
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(pictureBox1.Image);
             Paint_Map();
+
             if (Circles.Count != 0)
                 Paint_Circle();
+            if (Points != null)
+                Paint_Dot();
+        }
+        private void Paint_Circle()
+        {
+            foreach (var C in Circles)
+            {
+                graphics.DrawEllipse(new Pen(Brushes.Black, 2), C.X, C.Y, C.diameter, C.diameter);
+            }
+            pictureBox1.Refresh();
+        }
+        private void Paint_Dot()
+        {
+            if (Points != null)
+            {
+                graphics.FillRectangle(Brushes.Red, Points.X, Points.Y, 10, 10);
+                pictureBox1.Refresh();
+            }
         }
 
         private void AddB_Click(object sender, EventArgs e)
@@ -155,13 +163,40 @@ namespace Circle
             int X = tempX != 0 ? radius_ * tempX - 30 : tempX - radius_;
             int Y = tempY != 0 ? radius_ * tempY - 30 : tempY - radius_;
 
-            Circles.Add(new CircleClass(X, Y, radius_, diameter));
+            Circles.Add(new CircleClass(X, Y, radius_, diameter, (int)centerX.Value, (int)centerY.Value, (int)radius.Value));
             Paint_Circle();
         }
 
         private void CheckB_Click(object sender, EventArgs e)
         {
+            int tempX = (int)dotX.Value;
+            int tempY = -(int)dotY.Value;
 
+            int X = tempX != 0 ? (tempX * 30) - 5 : tempX - 5;
+            int Y = tempY != 0 ? (tempY * 30) - 5 : tempY - 5;
+
+            Points = new MyPoint(X, Y, (int)dotX.Value, (int)dotY.Value);
+            LoadMap();
+
+            if (checkDot())
+                MessageBox.Show("Точка входит в круг");
+            else
+                MessageBox.Show("Точка НЕ входит в круг");
+        }
+
+        private bool checkDot()
+        {
+            if (Circles.Count == 0)
+                return false;
+
+            bool res = false;
+            foreach (var c in Circles)
+            {
+                res = c.CheckDot(Points);
+                if (res)
+                    return res;
+            }
+            return res;
         }
     }
 }
